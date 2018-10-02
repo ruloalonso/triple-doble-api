@@ -1,83 +1,70 @@
-const info = require('nba');
-const stats = require('nba').stats;
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const mongoose = require('mongoose');
+const passport = require('passport');
+const session = require('express-session');
+const cors = require('cors');
 
-const data = require('nba.js').data;
+require('./config/db.config');
+require('./config/passport.config').setup(passport);
+const corsConfig = require('./config/cors.config');
 
-const nbaStatsClient = require('nba-stats-client');
+const usersRouter = require('./routes/users.routes');
+const sessionsRouter = require('./routes/sessions.routes');
+const playersRouter = require('./routes/players.routes');
 
-// NBA 
-// https://github.com/bttmly/nba/blob/master/doc/stats.md
+const app = express();
 
-// const curry = info.findPlayer('Curry');
-// console.log('\n CURRY INFO  \n');
-// console.log(curry);
+app.use(logger('dev'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(cors(corsConfig));
 
-// stats.playerInfo({ 
-//   PlayerID: curry.playerId 
-// }).then(info => {
-//   console.log('\n CURRY MORE INFO  \n');
-//   console.log(info);
-// });
+// TODO => review .env and secret
+app.use(session({
+  secret: process.env.COOKIE_SECRET || 'Super Secret',
+  resave: true,
+  saveUninitialized: true,
+  cookie: {
+    httpOnly: true,
+    maxAge: 2419200000
+  }
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 
+app.use('/players', playersRouter);
+app.use('/users', usersRouter);
+app.use('/sessions', sessionsRouter);
 
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+  next(createError(404));
+});
 
-// NBA.JS
-// https://github.com/kshvmdn/nba.js/blob/master/docs/api/STATS.md#method-reference
+app.use(function (error, req, res, next) {
+  console.error(error);
+  res.status(error.status || 500);
+  
+  const data = {}
 
-// data.teams({
-//   year: 2018
-// }).then(function(res) {
-//   let teams = res.league.standard.filter(team => team.isNBAFranchise);
-//   console.log(teams.length);
-//   // teams.forEach(team => console.log(team.fullName));
-// }).catch(function(err) {
-//   console.error(err);
-// });
+  if (error instanceof mongoose.Error.ValidationError) {
+    res.status(400);
+    for (field of Object.keys(error.errors)) {
+      error.errors[field] = error.errors[field].message
+    }
+    data.errors = error.errors
+  } else if (error instanceof mongoose.Error.CastError) {
+    error = createError(404, 'Resource not found')
+  }
 
+  data.message = error.message;
+  res.json(data);
+});
 
-
-// NBA STATS CLIENT
-let day = { year: 2018, month: 10, day: 1 };
-let game = Object.create(day);
-game.gameId = '0011800012';
-
-function getGamesByDay(day) {
-  nbaStatsClient.getGames(day)
-    .then(response => {
-      let games = response.sports_content.games.game;
-      console.log(games);
-      return games;
-    })
-    .catch(error => console.log(error))
-}
-
-function getPlayersByGameId(game) {
-  return nbaStatsClient.getBoxScore(game)
-    .then(response => {
-      let boxScore = response.sports_content.game;
-      let players = boxScore.visitor.players ? boxScore.visitor.players.player : [];
-      console.log(players);
-      return players;     
-    })
-    .catch(error => console.log(error))
-}
-
-function getPlayersByDay(day) {
-  console.log(`Searching games for day:`);
-  console.log(day);
-  getGamesByDay(day)
-    .then(response => {      
-      let games = response.sports_content.games.game;
-      console.log(`${games.length} founded. Fetching info of the games...`);
-      let promises = games.map(getPlayersByGameId);
-      var results = Promise.all(promises);
-      results.then(data => // or just .then(console.log)
-          console.log(data) // [2, 4, 6, 8, 10]
-      );
-      //console.log(promises);     
-      //games.forEach(game => promises.push(getPlayersByGameId(game)));
-    })
-}
-
-// getGamesByDay(day)
-getPlayersByGameId(game);
+module.exports = app;
