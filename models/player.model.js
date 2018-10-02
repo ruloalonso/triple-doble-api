@@ -21,6 +21,7 @@ const playerSchema = new mongoose.Schema({
     type: String,
     required: 'Team is required'
   },
+  jersey: Number,
   image: String,
   position: String
 }, { 
