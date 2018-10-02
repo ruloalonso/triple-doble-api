@@ -1,0 +1,29 @@
+{
+  "name": "triple-doble-api",
+  "version": "1.0.0",
+  "description": "nba general management simulator",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ruloalonso/triple-doble-api.git"
+  },
+  "keywords": [
+    "nba",
+    "fantasy",
+    "simulator"
+  ],
+  "author": "Rulo Alonso",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ruloalonso/triple-doble-api/issues"
+  },
+  "homepage": "https://github.com/ruloalonso/triple-doble-api#readme",
+  "dependencies": {
+    "nba": "^4.2.2",
+    "nba-stats-client": "^1.0.0",
+    "nba.js": "^0.6.1"
+  }
+}
