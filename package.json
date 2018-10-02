@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node ./bin/www",
     "dev": "nodemon ./bin/www",
-    "seed-contracts": "DEBUG=triple-doble-api:* node ./bin/seed-contracts"
+    "seed-contracts": "DEBUG=triple-doble-api:* node ./bin/seed-contracts", 
+    "seed-playerIds": "DEBUG=triple-doble-api:* node ./bin/seed-playerIds"
   },
   "repository": {
     "type": "git",
