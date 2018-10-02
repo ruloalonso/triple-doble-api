@@ -10,7 +10,6 @@ fs.readFile('./data/contracts.csv', (err, data) => {
   parse(data, {
     comment: '#'
   }, function(err, output){
-    //console.log(output[1]);
     output.shift();
     let players = output.map(player => {
       return {
@@ -20,7 +19,7 @@ fs.readFile('./data/contracts.csv', (err, data) => {
         contracts: getContracts(player)
       }
     });
-    //console.log(players[0]);
+    console.log(players.length);
     savePlayer(players[0]);
   })
 });
