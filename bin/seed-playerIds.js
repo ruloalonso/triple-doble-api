@@ -17,19 +17,15 @@ axios.get('https://stats.nba.com/stats/commonallplayers?Season=2018-19&LeagueID=
       let comma = player[1].indexOf(',');
       let firstName = '';
       let lastName = '';
-
-      //console.log(fullName);
               
       if (comma === -1) {        
         if (fullName === 'Nene') {
           firstName = 'Nene';
           lastName = 'Hilario';
-          // console.log('[CLEAN] NENE');
         }
         if (fullName === 'Zhou Qi') {
           firstName = 'Zhou';
           lastName = 'Qi';
-          // console.log('[CLEAN] ZHOU');
         } 
       } else {
         firstName = player[1].substr(comma+2);
@@ -37,44 +33,37 @@ axios.get('https://stats.nba.com/stats/commonallplayers?Season=2018-19&LeagueID=
       }
       
       if (lastName.indexOf('III') > 0 || lastName.indexOf('Jr') > 0) {
-        // console.log(lastName)
         lastName = lastName.substring(0, lastName.length - 4)
-        // console.log('[CLEAN III!!] -------------> ' + lastName);
       }
 
       if (lastName === 'Antetokounmpo') {
         firstName = 'Giannis';
-        // console.log('[CLEAN III!!] -------------> ' + lastName);
+      }
+
+      if (lastName === 'Redick') {
+        firstName = 'J.J.';
+      }
+
+      if (firstName === 'Juancho') {
+        firstName = 'Juan';
       }
 
       if (firstName === 'JR' && lastName === 'Smith') {
         firstName = 'J.R.';
-        // console.log('[CLEAN III!!] -------------> ' + lastName);
       }
 
       if (lastName.indexOf('IV') > 0 || lastName.indexOf('II') > 0) {
-        // console.log(lastName)
         lastName = lastName.substring(0, lastName.length - 3)
-        // console.log('[CLEAN II!!] -------------> ' + lastName);
       }
 
       Player.findOne({firstName: firstName, lastName: lastName})
         .then(dbPlayer => { 
-          // console.log(dbPlayer)
           if (!dbPlayer) {
-            console.log(firstName + ' ' + lastName)
-            console.log(++fails + ' fails');
+            console.log( '#' + ++fails + ' ' + firstName + ' ' + lastName)
           }
-          //parseLastName(lastName);
         })            
       
     })
   })
 
-function parseLastName(lastName) {  
-  return lastName.indexOf('Jr') > 0 ? lastName.substring(0, lastName.length - 4) : lastName;
-}
 
-function parseExceptions(lastName) {
-  
-}
