@@ -5,14 +5,13 @@ const info = require('nba');
 const axios = require('axios');
 
 // jordan es el 893!!!
+let count = 0;
 
 axios.get('https://stats.nba.com/stats/commonallplayers?Season=2018-19&LeagueID=00&IsOnlyCurrentSeason=1')
   .then(response => {
     console.log(response.data.resultSets[0].rowSet.length + ' players found');
     let players = response.data.resultSets[0].rowSet;
-    let fails = 0;
     players.forEach(player => {
-      let playerId = player[0];
       let fullName = player[2];      
       let comma = player[1].indexOf(',');
       let firstName = '';
@@ -56,12 +55,21 @@ axios.get('https://stats.nba.com/stats/commonallplayers?Season=2018-19&LeagueID=
         lastName = lastName.substring(0, lastName.length - 3)
       }
 
-      Player.findOne({firstName: firstName, lastName: lastName})
-        .then(dbPlayer => { 
-          if (!dbPlayer) {
-            console.log( '#' + ++fails + ' ' + firstName + ' ' + lastName)
-          }
-        })            
+      let newPlayer = new Player();
+
+      newPlayer.playerId = player[0];
+      newPlayer.firstName = firstName;
+      newPlayer.lastName = lastName;
+
+      // console.log(newPlayer);
+      // console.log(++count);
+
+      // Player.findOne({firstName: firstName, lastName: lastName})
+      //   .then(dbPlayer => { 
+      //     if (!dbPlayer) {
+      //       console.log( '#' + ++fails + ' ' + firstName + ' ' + lastName)
+      //     }
+      //   })            
       
     })
   })
