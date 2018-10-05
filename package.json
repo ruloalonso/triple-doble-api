@@ -7,6 +7,7 @@
     "start": "node ./bin/www",
     "dev": "nodemon ./bin/www",
     "get-players": "DEBUG=triple-doble-api:* node ./bin/get-players",
+    "get-stats": "DEBUG=triple-doble-api:* node ./bin/get-stats",
     "get-contracts": "DEBUG=triple-doble-api:* node ./bin/get-contracts",
     "set-empty-contracts": "DEBUG=triple-doble-api:* node ./bin/set-empty-contracts"
   },
