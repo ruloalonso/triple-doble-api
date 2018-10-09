@@ -6,6 +6,6 @@ const secure = require('../middlewares/secure.middleware');
 router.get('/', /* secure.isAuthenticated ,*/ players.list);
 router.get('/:id', /* secure.isAuthenticated, */ players.get);
 router.post('/:id/sign', secure.isAuthenticated, players.sign);
-// router.post('/:id/cut', /* secure.isAuthenticated, */ players.cut);
+router.post('/:id/cut', secure.isAuthenticated, players.cut);
 
 module.exports = router;

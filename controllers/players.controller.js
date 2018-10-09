@@ -52,6 +52,13 @@ module.exports.sign = (req, res, next) => {
     })
 }
 
+module.exports.cut = (req, res, next) => {
+  Player.findByIdAndUpdate(req.params.id, {$set:{owner: null}})
+    .then(player => {
+      res.json(player);
+    })
+}
+
 function parseStats(set) {
   let stats = {
     gp: set[6],
