@@ -21,6 +21,10 @@ const playerSchema = new mongoose.Schema({
     type: String,
     required: 'Team is required'
   },
+  owner: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  },
   jersey: Number,
   image: String,
   position: String,

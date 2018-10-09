@@ -12,8 +12,13 @@ const userSchema =  new mongoose.Schema({
     type: String,
     required: true
   },
-  team: {
-    type: String
+  teamName: {
+    type: String,
+    required: true
+  },
+  teamCity: {
+    type: String,
+    required: true
   }
 }, { 
   timestamps: true,

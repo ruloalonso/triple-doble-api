@@ -1,4 +1,5 @@
 const User = require('../models/user.model');
+const Team = require('../models/team.model');
 const createError = require('http-errors');
 
 module.exports.list = (req, res, next) => {
@@ -15,7 +16,15 @@ module.exports.create = (req, res, next) => {
       } else {
         user = new User(req.body);
         user.save()
-          .then(user => res.status(201).json(user))
+          .then(user => {
+            let team = new Team({
+              owner: user._id, 
+              city: req.body.teamCity,
+              name: req.body.teamName
+            })
+            console.log(team)
+            res.status(201).json(user)
+          })
           .catch(error => {
             next(error)
           });
