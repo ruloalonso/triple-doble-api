@@ -3,9 +3,16 @@ const PlayerStat = require('../models/player-stats.model');
 const createError = require('http-errors');
 
 module.exports.list = (req, res, next) => {
-  Player.find()
+  if (!req.query.team) {
+    Player.find()
     .then(players => res.json(players))
     .catch(error => next(error));
+  } else {
+    Player.find({team: req.query.team})
+      .then(players => {
+        res.json(players);
+      })
+  }  
 }
 
 module.exports.get = (req, res, next) => {
@@ -21,7 +28,6 @@ module.exports.get = (req, res, next) => {
             } else {
               stat.data.rowSet.forEach((set) => {
                 if (set[1] === '2017-18') {
-                  console.log('stats found!!')
                   player.stats = {};
                   player.stats.pastSeason = parseStats(set);
                 }
@@ -39,6 +45,10 @@ module.exports.get = (req, res, next) => {
     });
 }
 
+module.exports.team = (req, res, next) => {
+  Player
+}
+
 function parseStats(set) {
   let stats = {
     gp: set[6],
@@ -52,5 +62,13 @@ function parseStats(set) {
     pf: set[25],
     pts: set[26]
   }
+  stats.fpts = calculateFP(stats);
+  stats.fptsMin = Math.round(stats.fpts / stats.min * 1000) / 1000;
   return stats;
+}
+
+function calculateFP(stats) {
+  let plus = stats.oreb + stats.dreb + stats.ast + stats.stl + stats.blk + stats.pts;
+  let minus = stats.tov + stats.pf;
+  return Math.round((plus - minus) * 100) / 100;
 }
