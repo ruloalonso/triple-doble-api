@@ -45,8 +45,11 @@ module.exports.get = (req, res, next) => {
     });
 }
 
-module.exports.team = (req, res, next) => {
-  Player
+module.exports.sign = (req, res, next) => {
+  Player.findByIdAndUpdate(req.params.id, {$set:{owner: req.user._id}})
+    .then(player => {
+      res.json(player);
+    })
 }
 
 function parseStats(set) {
