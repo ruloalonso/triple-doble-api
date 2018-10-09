@@ -23,7 +23,8 @@ const playerSchema = new mongoose.Schema({
   },
   jersey: Number,
   image: String,
-  position: String
+  position: String,
+  stats: Object
 }, { 
   timestamps: true,
   toJSON: {
