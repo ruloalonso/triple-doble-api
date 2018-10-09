@@ -3,15 +3,20 @@ const PlayerStat = require('../models/player-stats.model');
 const createError = require('http-errors');
 
 module.exports.list = (req, res, next) => {
-  if (!req.query.team) {
-    Player.find()
-    .then(players => res.json(players))
-    .catch(error => next(error));
-  } else {
+  if (req.query.team) {
     Player.find({team: req.query.team})
       .then(players => {
         res.json(players);
       })
+  } else if (req.query.owner) {
+    Player.find({owner: req.query.owner})
+      .then(players => {
+        res.json(players);
+      })
+  } else {    
+    Player.find()
+      .then(players => res.json(players))
+      .catch(error => next(error));
   }  
 }
 
