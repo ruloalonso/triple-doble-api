@@ -22,8 +22,12 @@ module.exports.create = (req, res, next) => {
               city: req.body.teamCity,
               name: req.body.teamName
             })
+            team.save()
+              .then(team => {
+                console.log(team);
+                res.status(201).json(user, team)
+              })
             console.log(team)
-            res.status(201).json(user)
           })
           .catch(error => {
             next(error)
