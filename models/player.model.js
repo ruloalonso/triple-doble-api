@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 const playerSchema = new mongoose.Schema({
   playerId: {
     type: Number,
-    //required: 'Player is required'
   },
   firstName: {
     type: String,
@@ -13,32 +12,19 @@ const playerSchema = new mongoose.Schema({
     type: String,
     required: 'Last name is required'
   },
-  contracts: {
-    type: [Number],
-    default: []
-  },
   team: {
     type: String,
     required: 'Team is required'
   },
   owner: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
+    ref: 'Team'
   },
-  jersey: Number,
-  image: String,
-  position: String,
-  stats: Object
-}, { 
-  timestamps: true,
-  toJSON: {
-    transform: (doc, ret) => {
-      ret.id = doc._id;
-      delete ret._id;
-      delete ret.__v;      
-      return ret;
-    }
-  }
+  image: String
+  // contracts: {
+  //   type: [Number],
+  //   default: []
+  // }
 });
 
 const Player = mongoose.model('Player', playerSchema);

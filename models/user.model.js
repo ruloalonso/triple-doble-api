@@ -11,12 +11,6 @@ const userSchema =  new mongoose.Schema({
   password: {
     type: String,
     required: true
-  },
-  teamName: {
-    type: String,
-  },
-  teamCity: {
-    type: String,
   }
 }, { 
   timestamps: true,

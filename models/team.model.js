@@ -14,14 +14,14 @@ const teamSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  salaryCap: {
-    type: Number,
-    default: 101869000
-  },
-  totalSalaries: {
-    type: Number,
-    default: 0
-  }
+  // salaryCap: {
+  //   type: Number,
+  //   default: 101869000
+  // },
+  // totalSalaries: {
+  //   type: Number,
+  //   default: 0
+  // }
 });
 
 const Team = mongoose.model('Team', teamSchema);
