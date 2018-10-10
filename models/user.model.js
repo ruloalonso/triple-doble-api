@@ -14,11 +14,9 @@ const userSchema =  new mongoose.Schema({
   },
   teamName: {
     type: String,
-    required: true
   },
   teamCity: {
     type: String,
-    required: true
   }
 }, { 
   timestamps: true,

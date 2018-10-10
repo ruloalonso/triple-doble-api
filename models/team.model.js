@@ -17,6 +17,10 @@ const teamSchema = new mongoose.Schema({
   salaryCap: {
     type: Number,
     default: 101869000
+  },
+  totalSalaries: {
+    type: Number,
+    default: 0
   }
 });
 

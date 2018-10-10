@@ -1,4 +1,5 @@
 const Player = require('../models/player.model');
+const Team = require('../models/team.model');
 const PlayerStat = require('../models/player-stats.model');
 const createError = require('http-errors');
 
@@ -53,14 +54,32 @@ module.exports.get = (req, res, next) => {
 module.exports.sign = (req, res, next) => {
   Player.findByIdAndUpdate(req.params.id, {$set:{owner: req.user._id}})
     .then(player => {
-      res.json(player);
+      Team.findOne({owner: req.user._id})
+        .then(team => {
+          console.log(team)
+          team.totalSalaries += player.contracts[0];
+          team.save()
+            .then(team => {
+              console.log('Player signed! New salary cap: ' + (team.salaryCap - team.totalSalaries))
+              res.json(player);
+            })
+        })      
     })
 }
 
 module.exports.cut = (req, res, next) => {
   Player.findByIdAndUpdate(req.params.id, {$set:{owner: null}})
     .then(player => {
-      res.json(player);
+      Team.findOne({owner: req.user._id})
+        .then(team => {
+          console.log(team)
+          team.totalSalaries =  team.totalSalaries <= 0 ? 0 : team.totalSalaries - player.contracts[0];
+          team.save()
+            .then(team => {
+              console.log('Player cut! New team salary cap: ' + (team.salaryCap - team.totalSalaries))
+              res.json(player);
+            })
+        })      
     })
 }
 

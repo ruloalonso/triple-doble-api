@@ -14,7 +14,7 @@ module.exports.create = (req, res, next) => {
       if (user) {
         throw createError(409, `User with email ${req.body.email} already exists`);
       } else {
-        user = new User(req.body);
+        user = new User({email: req.body.email, password: req.body.password});
         user.save()
           .then(user => {
             let team = new Team({
@@ -25,9 +25,8 @@ module.exports.create = (req, res, next) => {
             team.save()
               .then(team => {
                 console.log(team);
-                res.status(201).json(user, team)
+                res.status(201).json(user)
               })
-            console.log(team)
           })
           .catch(error => {
             next(error)
