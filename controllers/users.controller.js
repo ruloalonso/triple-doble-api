@@ -12,9 +12,9 @@ module.exports.create = (req, res, next) => {
   User.findOne({ email: req.body.email })
     .then(user => {
       if (user) {
-        throw createError(409, `User with email ${req.body.email} already exists`);
+        throw createError(409, `User with name ${req.body.name} already exists`);
       } else {
-        user = new User({email: req.body.email, password: req.body.password});
+        user = new User({name: req.body.name, password: req.body.password});
         user.save()
           .then(user => {
             let team = new Team({

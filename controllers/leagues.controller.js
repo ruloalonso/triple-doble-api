@@ -4,7 +4,7 @@ const createError = require('http-errors');
 module.exports.get = (req, res, next) => {
   League.find()
     .then(leagues => {
-      res.json(leagues[0]);
+      res.json(leagues);
     })
     .catch(error => next(error)); 
 }
@@ -30,8 +30,20 @@ module.exports.create = (req, res, next) => {
     .catch(error => next(error));  
 }
 
-module.exports.apply = (req, res, next) => {
-  // TODO
+module.exports.join = (req, res, next) => {
+  League.findById(req.params.id)
+    .then(league => {
+      console.log(league);
+      if(league.users.length >= league.maxUsers) {
+        throw createError(404, 'This league already reached the max number of users');
+      } else {
+        league.users.push(req.user._id);
+        league.save()
+          .then(response => {
+            res.status(201).json('Congratulations! you joined the league: ' + league._id)
+          })
+      }
+    })
 }
 
 module.exports.startDraft = (req, res, next) => {
