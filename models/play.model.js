@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const playeSchema = new mongoose.Schema({
+const playSchema = new mongoose.Schema({
   nbaGameId: {
     type: String
   },
@@ -22,5 +22,5 @@ const playeSchema = new mongoose.Schema({
   },
 });
 
-const PlayerStat = mongoose.model('PlayerStat', playerStatsSchema);
-module.exports = PlayerStat;
+const Play = mongoose.model('Play', playSchema);
+module.exports = Play;

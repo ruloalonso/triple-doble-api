@@ -24,8 +24,8 @@ module.exports.create = (req, res, next) => {
             })
             team.save()
               .then(team => {
-                console.log(team);
-                res.status(201).json(user)
+                console.log(team);                
+                res.status(201).json('User saved! TeamId: ' + team._id)
               })
           })
           .catch(error => {
