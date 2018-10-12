@@ -45,7 +45,7 @@ module.exports.join = (req, res, next) => {
         league.users.push(req.user._id);
         league.save()
           .then(response => {
-            res.status(201).json('Congratulations! you joined the league: ' + league._id)
+            res.status(201).json(league);
           })
       }
     })
