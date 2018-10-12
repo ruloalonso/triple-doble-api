@@ -43,6 +43,8 @@ module.exports.join = (req, res, next) => {
       console.log(league);
       if(league.users.length >= league.maxUsers) {
         throw createError(404, 'This league already reached the max number of users');
+      } else if (league.users.includes(req.user._id)) {
+        throw createError(404, 'You are already in the league');
       } else {
         league.users.push(req.user._id);
         league.save()
