@@ -1,10 +1,26 @@
 const League = require('../models/league.model');
 const createError = require('http-errors');
 
-module.exports.get = (req, res, next) => {
+module.exports.list = (req, res, next) => {
   League.find()
     .then(leagues => {
-      res.json(leagues);
+      if (!leagues.length) {
+        throw createError(404, 'No leagues created yet');
+      } else {
+        res.json(leagues);
+      }
+    })
+    .catch(error => next(error)); 
+}
+
+module.exports.get = (req, res, next) => {
+  League.findById(req.params.id)
+    .then(league => {
+      if (!league) {
+        throw createError(404, 'League not found');
+      } else {
+        res.json(league);
+      }
     })
     .catch(error => next(error)); 
 }
