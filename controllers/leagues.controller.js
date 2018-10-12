@@ -26,24 +26,15 @@ module.exports.get = (req, res, next) => {
 }
 
 module.exports.create = (req, res, next) => {
-  League.find()
-    .then(leagues => {
-      console.log
-      if (!!leagues.length) {
-        throw createError(404, 'Already exists a league');
-      } else {
-        let league = new League({
-          admin: req.user._id,
-          users: [req.user._id]
-        })
-        league.save()
-          .then(league => {
-            res.status(201).json('League created! League: ' + league._id)
-          })
-          .catch(error => next(error));
-      }
+  let league = new League({
+    admin: req.user._id,
+    users: [req.user._id]
+  })
+  league.save()
+    .then(league => {
+      res.status(201).json('League created! League: ' + league._id)
     })
-    .catch(error => next(error));  
+    .catch(error => next(error));
 }
 
 module.exports.join = (req, res, next) => {
