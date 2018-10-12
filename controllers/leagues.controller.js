@@ -28,7 +28,7 @@ module.exports.create = (req, res, next) => {
   })
   league.save()
     .then(league => {
-      res.status(201).json('League created! League: ' + league._id)
+      res.status(201).json(league)
     })
     .catch(error => next(error));
 }
