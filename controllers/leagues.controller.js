@@ -4,11 +4,7 @@ const createError = require('http-errors');
 module.exports.list = (req, res, next) => {
   League.find()
     .then(leagues => {
-      if (!leagues.length) {
-        throw createError(404, 'No leagues created yet');
-      } else {
-        res.json(leagues);
-      }
+      res.json(leagues);
     })
     .catch(error => next(error)); 
 }
