@@ -85,30 +85,25 @@ module.exports.passTurn = (req, res, next) => {
           league.turn = 1;
           league.round++;
           if (league.round > league.maxPlayers) {
-            console.log('SEASON START!!!!!!!!')
             league.status = "season";
             league.save()
               .then(league => {
-                console.log(league)
                 res.status(201).json(league)
               })
           } else {
             // league.turn++;
-            console.log('hola!');
             league.save()
               .then(league => {
-                console.log(league)
                 res.status(201).json(league)
               })
           }          
         } else {
           league.turn++;
           league.save()
-              .then(league => {
-                console.log(league)
-                res.status(201).json(league)
-              })
-          res.status(201).json(league)
+            .then(league => {
+              console.log(league)
+              res.status(201).json(league)
+            })
         }      
       }
     })
