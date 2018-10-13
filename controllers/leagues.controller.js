@@ -1,5 +1,6 @@
 const League = require('../models/league.model');
 const createError = require('http-errors');
+const faker = require('faker');
 
 module.exports.list = (req, res, next) => {
   League.find()
@@ -24,7 +25,8 @@ module.exports.get = (req, res, next) => {
 module.exports.create = (req, res, next) => {
   let league = new League({
     admin: req.user._id,
-    users: [req.user._id]
+    users: [req.user._id],
+    name: faker.company.companyName()
   })
   league.save()
     .then(league => {

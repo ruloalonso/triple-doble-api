@@ -17,16 +17,7 @@ module.exports.create = (req, res, next) => {
         user = new User({name: req.body.name, password: req.body.password, email: req.body.email});
         user.save()
           .then(user => {
-            let team = new Team({
-              owner: user._id, 
-              city: req.body.teamCity,
-              name: req.body.teamName
-            })
-            team.save()
-              .then(team => {
-                console.log(team);                
-                res.status(201).json('User saved! TeamId: ' + team._id)
-              })
+            res.status(201).json(user);
           })
           .catch(error => {
             next(error)

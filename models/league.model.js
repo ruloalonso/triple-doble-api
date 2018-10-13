@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
 
 const leagueSchema = new mongoose.Schema({
+  name: {
+    type: String
+  },
   admin: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
