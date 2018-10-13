@@ -4,12 +4,12 @@ const faker = require('faker');
 
 // TODO
 module.exports.create = (req, res, next) => {
+  console.log(req.user);
   let team = new Team();
   team.owner = req.user._id;
   team.name = faker.lorem.word();
   team.city = faker.address.city();
   team.league = req.params.id;
-  console.log(team);
   team.save()
     .then(team => {
       res.json(team);
