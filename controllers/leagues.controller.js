@@ -52,35 +52,32 @@ module.exports.join = (req, res, next) => {
 }
 
 module.exports.startDraft = (req, res, next) => {
-  League.find()
-    .then(leagues => {
-      let league = leagues[0];
+  League.findById(req.params.id)
+    .then(league => {
       league.status = "draft";
       league.save()
-        .then(response => {
-          res.status(201).json('Draft sarted!')
+        .then(league => {
+          res.status(201).json(league)
         })
     })
     .catch(error => next(error));  
 }
 
 module.exports.startSeason = (req, res, next) => {
-  League.find()
-    .then(leagues => {
-      let league = leagues[0];
+  League.findById(req.params.id)
+    .then(league => {
       league.status = "season";
       league.save()
-        .then(response => {
-          res.status(201).json('Season sarted!')
+        .then(league => {
+          res.status(201).json(league)
         })
     })
     .catch(error => next(error));  
 }
 
 module.exports.passTurn = (req, res, next) => {
-  League.find()
-    .then(leagues => {
-      let league = leagues[0];
+  League.findById(req.params.id)
+    .then(league => {
       if (league.status !== "draft") {
         res.status(404).json('Its not draft time!')
       } else {
@@ -88,26 +85,32 @@ module.exports.passTurn = (req, res, next) => {
           league.turn = 1;
           league.round++;
           if (league.round > league.maxPlayers) {
-            // SEASON START
+            console.log('SEASON START!!!!!!!!')
             league.status = "season";
             league.save()
-              .then(response => {
-                console.log(response)
-                res.status(201).json('Turn passed! Season is ready to start!')
+              .then(league => {
+                console.log(league)
+                res.status(201).json(league)
               })
           } else {
-            res.status(201).json('Turn passed! Round: ' + league.round + ' Turn: ' + league.turn)
+            // league.turn++;
+            console.log('hola!');
+            league.save()
+              .then(league => {
+                console.log(league)
+                res.status(201).json(league)
+              })
           }          
         } else {
           league.turn++;
-          res.status(201).json('Turn passed! Round: ' + league.round + ' Turn: ' + league.turn)
+          league.save()
+              .then(league => {
+                console.log(league)
+                res.status(201).json(league)
+              })
+          res.status(201).json(league)
         }      
       }
-
-      league.save()
-        .then(response => {
-          res.status(201).json('Draft sarted!')
-        })
     })
     .catch(error => next(error));  
 }

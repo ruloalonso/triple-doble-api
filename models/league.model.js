@@ -24,7 +24,7 @@ const leagueSchema = new mongoose.Schema({
   },
   maxUsers: {
     type: Number,
-    default: 4
+    default: 2
   },
   maxPlayers: {
     type: Number,
