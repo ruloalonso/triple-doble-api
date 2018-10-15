@@ -4,6 +4,7 @@ const faker = require('faker');
 
 module.exports.list = (req, res, next) => {
   League.find()
+    // .populate('admin')
     .then(leagues => {
       res.json(leagues);
     })
@@ -12,6 +13,7 @@ module.exports.list = (req, res, next) => {
 
 module.exports.get = (req, res, next) => {
   League.findById(req.params.id)
+    // .populate('users')
     .then(league => {
       if (!league) {
         throw createError(404, 'League not found');
