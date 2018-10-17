@@ -8,10 +8,14 @@ const leagueSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
   },
-  users: {
-    type: [mongoose.Schema.Types.ObjectId],
+  users: [{
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
-  },
+  }],
+  // users: {
+  //   type: [mongoose.Schema.Types.ObjectId],
+  //   ref: 'User'
+  // },
   status: {
     type: String,
     enum: ['application', 'draft', 'season'],

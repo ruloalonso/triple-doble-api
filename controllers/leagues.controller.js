@@ -4,7 +4,8 @@ const faker = require('faker');
 
 module.exports.list = (req, res, next) => {
   League.find()
-    // .populate('admin')
+    .populate('admin')
+    .populate('users')
     .then(leagues => {
       res.json(leagues);
     })
@@ -13,7 +14,8 @@ module.exports.list = (req, res, next) => {
 
 module.exports.get = (req, res, next) => {
   League.findById(req.params.id)
-    // .populate('users')
+    .populate('users')
+    .populate('admin')
     .then(league => {
       if (!league) {
         throw createError(404, 'League not found');
@@ -40,7 +42,7 @@ module.exports.create = (req, res, next) => {
 module.exports.join = (req, res, next) => {
   League.findById(req.params.id)
     .then(league => {
-      console.log(league);
+      // console.log(league);
       if(league.users.length >= league.maxUsers) {
         throw createError(404, 'This league already reached the max number of users');
       } else if (league.users.includes(req.user._id)) {
@@ -105,7 +107,7 @@ module.exports.passTurn = (req, res, next) => {
           league.turn++;
           league.save()
             .then(league => {
-              console.log(league)
+              // console.log(league)
               res.status(201).json(league)
             })
         }      

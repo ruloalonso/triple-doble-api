@@ -44,16 +44,16 @@ module.exports.get = (req, res, next) => {
 }
 
 module.exports.sign = (req, res, next) => {
-  console.log('user');
-  console.log(req.user);
+  // console.log('user');
+  // console.log(req.user);
   Player.findById(req.params.id)
     .then(player => {
-      console.log('player');
-      console.log(player);
+      // console.log('player');
+      // console.log(player);
       Team.findOne({owner: req.user._id})
         .then(team => {
-          console.log('team');
-          console.log(team);
+          // console.log('team');
+          // console.log(team);
           player.owner = team._id;
           player.save()
             .then(player => {
