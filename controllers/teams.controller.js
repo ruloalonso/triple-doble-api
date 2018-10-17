@@ -17,8 +17,8 @@ module.exports.create = (req, res, next) => {
     .catch(error => next(error)); 
 }
 
-module.exports.list = (req, res, next) => {
-  Team.find()
+module.exports.league = (req, res, next) => {
+  Team.find({league: req.params.id})
     .populate('owner')
     .then(teams => {
       res.json(teams);
