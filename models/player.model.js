@@ -20,11 +20,11 @@ const playerSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Team'
   },
-  image: String
-  // contracts: {
-  //   type: [Number],
-  //   default: []
-  // }
+  image: String,
+  position: {
+    type: String,
+    enum: ['G', 'F', 'C', 'B']
+  },
 });
 
 const Player = mongoose.model('Player', playerSchema);
