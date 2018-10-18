@@ -46,16 +46,19 @@ module.exports.get = (req, res, next) => {
 module.exports.sign = (req, res, next) => {
   Player.findById(req.params.id)
     .then(player => {
-      Team.findOne({owner: req.user._id})
+      console.log('league', req.body.leagueId);
+      Team.findOne({owner: req.user._id, league: req.body.leagueId})
         .then(team => {
+          console.log('team',team._id);
           player.owner = team._id;
           player.position = 'B';
           player.save()
             .then(player => {
+              console.log('player',player._id);
               res.status(201).json(player);              
             })
+          })    
         })
-      })
     .catch(error => {
       next(error);
     });
