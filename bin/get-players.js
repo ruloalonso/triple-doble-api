@@ -14,8 +14,10 @@ Player.find()
       console.log('\nPlease DROP the database befor getting new players\n');
       mongoose.connection.close();
     } else {
+      console.log('hola get-players')
       axios.get('https://stats.nba.com/stats/commonallplayers?Season=2018-19&LeagueID=00&IsOnlyCurrentSeason=1')
         .then(response => {
+          console.log('hola axios!')
           console.log(response.data.resultSets[0].rowSet.length + ' players found');
           let players = response.data.resultSets[0].rowSet;
           players.forEach(player => {
