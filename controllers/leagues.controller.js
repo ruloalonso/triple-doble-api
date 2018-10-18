@@ -30,7 +30,7 @@ module.exports.create = (req, res, next) => {
   let league = new League({
     admin: req.user._id,
     users: [req.user._id],
-    name: faker.company.companyName()
+    name: req.body.name ? req.body.name : faker.company.companyName()
   })
   league.save()
     .then(league => {
