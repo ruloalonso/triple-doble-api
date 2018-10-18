@@ -7,8 +7,8 @@ module.exports.create = (req, res, next) => {
   // console.log(req.user);
   let team = new Team();
   team.owner = req.user._id;
-  team.name = faker.lorem.word();
-  team.city = faker.address.city();
+  team.city = req.body.city ? req.body.city : faker.address.city();
+  team.name = req.body.name ? req.body.name : faker.lorem.word();
   team.league = req.params.id;
   team.save()
     .then(team => {
