@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node ./bin/www",
     "dev": "nodemon ./bin/www",
+    "seed-plays": "DEBUG=triple-doble-api:* node ./bin/seed-plays",
     "get-players": "DEBUG=triple-doble-api:* node ./bin/get-players",
     "get-stats": "DEBUG=triple-doble-api:* node ./bin/get-stats",
     "get-contracts": "DEBUG=triple-doble-api:* node ./bin/get-contracts",
