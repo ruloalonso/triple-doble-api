@@ -12,6 +12,7 @@ module.exports.list = (req, res, next) => {
       })
   } else if (req.query.team) {
     Player.find({owner: req.query.team})
+      .populate('owner')
       .then(players => {
         res.json(players);
       })
@@ -24,6 +25,7 @@ module.exports.list = (req, res, next) => {
 
 module.exports.get = (req, res, next) => {
   Player.findById(req.params.id)
+    .populate('owner')
     .then(player => {
       if (!player) {
         throw createError(404, 'Player not found');
@@ -62,6 +64,14 @@ module.exports.sign = (req, res, next) => {
     .catch(error => {
       next(error);
     });
+}
+
+module.exports.position = (req, res, next) => {
+  Player.findByIdAndUpdate(req.params.id, {$set:{position: req.params.position}})
+    .then(player => res.status(201).json(player))
+    .catch(error => {
+      next(error);
+    })
 }
 
 module.exports.cut = (req, res, next) => {
