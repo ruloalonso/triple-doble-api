@@ -3,6 +3,6 @@ const router = express.Router();
 const plays = require('../controllers/plays.controller');
 const secure = require('../middlewares/secure.middleware');
 
-router.get('/:playerId', plays.get);
+router.get('/', plays.get);
 
 module.exports = router;

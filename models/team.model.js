@@ -18,6 +18,10 @@ const teamSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'League',
     required: true
+  },
+  fp: {
+    type: Number,
+    default: 0
   }
 });
 

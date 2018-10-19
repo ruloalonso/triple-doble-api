@@ -1,6 +1,7 @@
 require('../config/db.config');
 const mongoose = require('mongoose');
 const Play = require('../models/play.model');
+const Team = require('../models/team.model');
 const Player = require('../models/player.model');
 
 let games = 3;
@@ -21,7 +22,16 @@ Player.find()
             if (player.position === 'C') player.fp += play.reb;
             player.save()
               .then(player => {
-                console.log('Player FP updated!!')
+                if(player.owner) {
+                  Team.findById(player.owner)
+                    .then(team => {
+                      team.fp += player.fp;
+                      team.save()
+                        .then(team => {
+                          console.log('Player and Team FP updated!!')
+                        })
+                    })   
+                }                             
               })
           });
       }          
