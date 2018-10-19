@@ -16,7 +16,13 @@ Player.find()
         play.player = player._id;
         play.save()
           .then(play => {
-            console.log(play);
+            if (player.position === 'G') player.fp += play.as;
+            if (player.position === 'F') player.fp += play.pts;
+            if (player.position === 'C') player.fp += play.reb;
+            player.save()
+              .then(player => {
+                console.log('Player FP updated!!')
+              })
           });
       }          
     })
