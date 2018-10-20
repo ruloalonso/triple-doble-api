@@ -2,7 +2,6 @@ const Play = require('../models/play.model');
 const createError = require('http-errors');
 
 module.exports.get = (req, res, next) => {
-  console.log(req.query);
   if (req.query.player) {    
     Play.find({player: req.query.player})
       .then(plays => {
