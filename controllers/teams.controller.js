@@ -2,9 +2,7 @@ const Team = require('../models/team.model');
 const createError = require('http-errors');
 const faker = require('faker');
 
-// TODO
 module.exports.create = (req, res, next) => {
-  // console.log(req.user);
   let team = new Team();
   team.owner = req.user._id;
   team.city = req.body.city ? req.body.city : faker.address.city();

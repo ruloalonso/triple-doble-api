@@ -25,6 +25,10 @@ const playerSchema = new mongoose.Schema({
     type: String,
     enum: ['G', 'F', 'C', 'B']
   },
+  fp: {
+    type: Number,
+    default: 0
+  }
 });
 
 const Player = mongoose.model('Player', playerSchema);
